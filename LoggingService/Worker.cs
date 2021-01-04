@@ -31,49 +31,11 @@ namespace LoggingService
             watcher = new FileSystemWatcher();
             watcher.Path = path;
             messages = new Request(new HttpClient(), configuration);
-            ChangesOccured();
+            
             return base.StartAsync(cancellationToken);
         }
 
-        private async void OnChanged(object sender, FileSystemEventArgs e)
-        {
-            string response = await messages.SendMessage(e.FullPath, FileChangeType.Changed);
-            _logger.LogInformation(response);
-        }
-
-        private async void OnCreated(object sender, FileSystemEventArgs e)
-        {
-            string response = await messages.SendMessage(e.FullPath, FileChangeType.Created);
-            _logger.LogInformation(response);
-        }
-
-        private async void OnRenamed(object sender, FileSystemEventArgs e)
-        {
-            string response = await messages.SendMessage(e.FullPath, FileChangeType.Renamed);
-            _logger.LogInformation(response);
-        }
-
-        private async void OnDeleted(object sender, FileSystemEventArgs e)
-        {
-            string response = await messages.SendMessage(e.FullPath, FileChangeType.Deleted);
-            _logger.LogInformation(response);
-        }
-
-        private async void OnErrored(object sender, ErrorEventArgs e)
-        {
-            string response = await messages.RespondError(e.GetException());
-            _logger.LogError(response);
-        }
-
-
-        private void ChangesOccured()
-        {
-            watcher.Changed += OnChanged;
-            watcher.Created += OnCreated;
-            watcher.Renamed += OnRenamed;
-            watcher.Deleted += OnDeleted;
-            watcher.Error += OnErrored;
-        }
+        
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             while (!stoppingToken.IsCancellationRequested)

@@ -9,7 +9,7 @@ namespace QueueAPI.Data
 {
     public class DataContext : DbContext
     {
-        public DbSet<Message> Messages { get; set; }
+        public DbSet<Message> MessageQueue { get; set; }
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
         }
