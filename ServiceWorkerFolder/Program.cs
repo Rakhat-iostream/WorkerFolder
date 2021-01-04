@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+
 namespace ServiceWorkerFolder
 {
     public class Program
@@ -21,6 +22,7 @@ namespace ServiceWorkerFolder
                 .UseWindowsService()
                 .ConfigureServices((hostContext, services) =>
                 {
+                    
                     var emailConfig = hostContext.Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>();
                     services.AddSingleton(emailConfig);
                     services.AddSingleton<IEmailSender, EmailSender>();
